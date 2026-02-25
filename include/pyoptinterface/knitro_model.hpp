@@ -674,6 +674,50 @@ class KNITROModel : public OnesideLinearConstraintMixin<KNITROModel>,
 		m_is_dirty = true;
 	}
 
+	template <typename F, typename G, typename H>
+	void _register_callback(CallbackEvaluator<double> *evaluator, const F f, const G g, const H h)
+	{
+		CB_context *cb = nullptr;
+		auto p = evaluator->get_callback_pattern();
+		int error;
+		error = knitro::KN_add_eval_callback(m_kc.get(), p.indexCons.empty(), p.indexCons.size(),
+		                                     p.indexCons.data(), f, &cb);
+		_check_error(error);
+		error = knitro::KN_set_cb_user_params(m_kc.get(), cb, evaluator);
+		_check_error(error);
+		error = knitro::KN_set_cb_grad(m_kc.get(), cb, p.objGradIndexVars.size(),
+		                               p.objGradIndexVars.data(), p.jacIndexCons.size(),
+		                               p.jacIndexCons.data(), p.jacIndexVars.data(), g);
+		_check_error(error);
+		error = knitro::KN_set_cb_hess(m_kc.get(), cb, p.hessIndexVars1.size(),
+		                               p.hessIndexVars1.data(), p.hessIndexVars2.data(), h);
+		_check_error(error);
+	}
+
+	template <typename T, typename F, typename G, typename H>
+	void _add_callback_impl(const ExpressionGraph &graph, const std::vector<size_t> &rows,
+	                        const std::vector<ConstraintIndex> cons, const T &trace, const F f,
+	                        const G g, const H h)
+	{
+		auto evaluator_ptr = std::make_unique<CallbackEvaluator<double>>();
+		auto *evaluator = evaluator_ptr.get();
+		evaluator->fun = trace(graph);
+		evaluator->fun_rows = rows;
+		evaluator->indexVars.resize(graph.n_variables());
+		for (size_t i = 0; i < graph.n_variables(); i++)
+		{
+			evaluator->indexVars[i] = _variable_index(graph.m_variables[i]);
+		}
+		evaluator->indexCons.resize(cons.size());
+		for (size_t i = 0; i < cons.size(); i++)
+		{
+			evaluator->indexCons[i] = _constraint_index(cons[i]);
+		}
+		evaluator->setup();
+		_register_callback(evaluator, f, g, h);
+		m_evaluators.push_back(std::move(evaluator_ptr));
+	}
+
 	template <typename V>
 	using Getter = std::function<int(KN_context *, V *)>;
 	template <typename V>
