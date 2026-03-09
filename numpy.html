@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -359,7 +359,10 @@ Solving MIP model with:
 
 Src: B =&gt; Branching; C =&gt; Central rounding; F =&gt; Feasibility pump; H =&gt; Heuristic;
      I =&gt; Shifting; J =&gt; Feasibility jump; L =&gt; Sub-MIP; P =&gt; Empty MIP; R =&gt; Randomized rounding;
-     S =&gt; Solve LP; T =&gt; Evaluate node; U =&gt; Unbounded; X =&gt; User solution; Y =&gt; HiGHS solution;
+Termination status: TerminationStatusCode.OPTIMAL
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     S =&gt; Solve LP; T =&gt; Evaluate node; U =&gt; Unbounded; X =&gt; User solution; Y =&gt; HiGHS solution;
      Z =&gt; ZI Round; l =&gt; Trivial lower; p =&gt; Trivial point; u =&gt; Trivial upper; z =&gt; Trivial zero
 
         Nodes      |    B&amp;B Tree     |            Objective Bounds              |  Dynamic Constraints |       Work      
@@ -384,7 +387,6 @@ Solving report
   Nodes             1
   Repair LPs        0
   LP iterations     0
-Termination status: TerminationStatusCode.OPTIMAL
 </pre></div>
 </div>
 </div>
@@ -438,7 +440,9 @@ Termination status: TerminationStatusCode.OPTIMAL
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Running HiGHS 1.13.1 (git hash: 1d267d9): Copyright (c) 2026 under Apache 2.0 license terms
 Using BLAS: OpenBLAS 
-Hessian has dimension 8 but no nonzeros, so is ignored
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hessian has dimension 8 but no nonzeros, so is ignored
 LP has 16 rows; 8 cols; 16 nonzeros
 Coefficient ranges:
   Matrix  [1e+00, 1e+00]
